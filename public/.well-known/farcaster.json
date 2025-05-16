@@ -1,12 +1,12 @@
 {
-  "version": "1.0.0",
-  "name": "Farcaster Car Game",
-  "iconUrl": "https://farcaster-car-game.vercel.app/icon.png",
-  "homeUrl": "https://farcaster-car-game.vercel.app",
   "splashImageUrl": "https://farcaster-car-game.vercel.app/splash.png",
   "splashBackgroundColor": "#000000",
   "description": "Steer a car to collect coins and dodge bombs. Classic arcade vibes!",
   "frame": {
+    "version": "1.0.0",
+  "name": "Farcaster Car Game",
+  "iconUrl": "https://farcaster-car-game.vercel.app/icon.png",
+  "homeUrl": "https://farcaster-car-game.vercel.app",
     "postUrl": "https://farcaster-car-game.vercel.app/api/frame"
   }
 }
