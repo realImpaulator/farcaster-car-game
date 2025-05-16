@@ -27,7 +27,7 @@ export async function GET(req) {
         color: "white",
       }}>
         <div style={{ textAlign: "center" }}>
-          Score: {state.score} | Lives: {state.lives} {state.lives <= 0 ? '| High Score: ${state.highScore}' : ""}
+          Score: {state.score} | Lives: {state.lives} {state.lives <= 0 ? `| High Score: ${state.highScore}` : ""}
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-around" }}>

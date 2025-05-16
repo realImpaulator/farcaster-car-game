@@ -3,7 +3,7 @@
 import { ImageResponse } from "@vercel/og";
 
 function getFrameHtml({ image, buttons, post_url }) {
-  return '
+  return `
     <!DOCTYPE html>
     <html>
       <head>
@@ -14,7 +14,7 @@ function getFrameHtml({ image, buttons, post_url }) {
       </head>
       <body></body>
     </html>
-  ';
+  `;
 }
 
 function parseState(stateStr) {
@@ -67,12 +67,12 @@ export async function POST(req) {
   }
 
   const encodedState = encodeState(state);
-  const imgUrl = '${process.env.NEXT_PUBLIC_HOST}/api/render?state=${encodedState}';
+  const imgUrl = `${process.env.NEXT_PUBLIC_HOST}/api/render?state=${encodedState}`;
 
 	return new Response(getFrameHtml({
 	  image: imgUrl,
 	  buttons: state.lives > 0 ? ["⬅️ Move Left", "➡️ Move Right"] : ["🔁 Play Again"],
-	  post_url: '${process.env.NEXT_PUBLIC_HOST}/api/frame?state=${encodedState}',
+	  post_url: `${process.env.NEXT_PUBLIC_HOST}/api/frame?state=${encodedState}`,
 	}), {
 	  headers: {
 		"Content-Type": "text/html",
