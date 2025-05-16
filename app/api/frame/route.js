@@ -1,7 +1,4 @@
 // app/api/frame/route.js
-import { getFrameMetadata } from "frames.js";
-import { ImageResponse } from "@vercel/og";
-
 function parseState(stateStr) {
   try {
     return JSON.parse(Buffer.from(stateStr, 'base64').toString('utf-8'));
@@ -19,7 +16,7 @@ export async function POST(req) {
   const body = await req.json();
   const state = parseState(searchParams.get("state") || "");
 
-  const direction = body.untrustedData.buttonIndex === 1 ? -1 : 1;
+  const direction = body.untrustedData?.buttonIndex === 1 ? -1 : 1;
   state.lane = Math.max(0, Math.min(2, state.lane + direction));
   state.tick++;
 
@@ -43,17 +40,29 @@ export async function POST(req) {
   const encodedState = encodeState(state);
   const imgUrl = `${process.env.NEXT_PUBLIC_HOST}/api/render?state=${encodedState}`;
 
-  return new Response(
-    getFrameMetadata({
-      image: imgUrl,
-      buttons: ["⬅️ Move Left", "➡️ Move Right"],
-      post_url: `/api/frame?state=${encodedState}`,
-    }),
-    {
-      headers: {
-        "Content-Type": "text/html",
-        "Cache-Control": "no-store",
-      },
-    }
-  );
+  const html = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Car Game Frame</title>
+  </head>
+  <body style="background:#111; color:#fff; font-family:sans-serif; text-align:center; padding:20px;">
+    <img src="${imgUrl}" alt="Game Frame" style="max-width:100%; height:auto;" />
+    <div style="margin-top:20px;">
+      <form method="POST" action="/api/frame?state=${encodedState}">
+        <button name="buttonIndex" value="0" style="font-size:24px; margin-right:10px;">⬅️ Move Left</button>
+        <button name="buttonIndex" value="1" style="font-size:24px;">➡️ Move Right</button>
+      </form>
+    </div>
+  </body>
+  </html>
+  `;
+
+  return new Response(html, {
+    headers: {
+      "Content-Type": "text/html",
+      "Cache-Control": "no-store",
+    },
+  });
 }
