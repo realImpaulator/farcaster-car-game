@@ -19,22 +19,20 @@ export default function Home() {
 
   return (
     <>
-	<Head>
-	  <title>🚗 Farcaster Car Game</title>
-	  <meta name="description" content="Steer a car to collect coins and dodge bombs. Classic arcade vibes!" />
-	  <meta property="og:title" content="Farcaster Car Game" />
-	  <meta property="og:description" content="Play the game directly in a Farcaster Frame!" />
-	  <meta property="og:image" content="https://farcaster-car-game.vercel.app/icon.png" />
+<Head>
+  <title>🚗 Farcaster Car Game</title>
+  <meta
+    property="fc:frame"
+    content={`{
+      "post_url": "https://farcaster-car-game.vercel.app/api/frame",
+      "image": "https://farcaster-car-game.vercel.app/icon.png",
+      "buttons": ["⬅️ Move Left", "➡️ Move Right"]
+    }`}
+  />
+  <meta name="description" content="Steer a car to collect coins and dodge bombs. Classic arcade vibes!" />
+  <link rel="icon" href="/icon.png" />
+</Head>
 
-	  {/* Required Frame meta tags */}
-	  <meta property="fc:frame" content="vNext" />
-	  <meta property="fc:frame:image" content="https://farcaster-car-game.vercel.app/icon.png" />
-	  <meta property="fc:frame:post_url" content="https://farcaster-car-game.vercel.app/api/frame" />
-	  <meta property="fc:frame:button:1" content="⬅️ Move Left" />
-	  <meta property="fc:frame:button:2" content="➡️ Move Right" />
-
-	  <link rel="icon" href="/icon.png" />
-	</Head>
 
 
       <main className="min-h-screen flex flex-col items-center justify-center text-center p-8 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
