@@ -1,0 +1,7 @@
+{
+  "name": "Farcaster Car Game",
+  "description": "🚗 Dodge bombs and collect coins in this Farcaster mini game!",
+  "url": "https://farcaster-car-game.vercel.app",
+  "icon": "https://farcaster-car-game.vercel.app/icon.png",
+  "domains": ["farcaster-car-game.vercel.app"]
+}
