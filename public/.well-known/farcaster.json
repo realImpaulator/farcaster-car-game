@@ -1,13 +1,18 @@
 {
-  "splashImageUrl": "https://farcaster-car-game.vercel.app/splash.png",
-  "splashBackgroundColor": "#000000",
-  "description": "Steer a car to collect coins and dodge bombs. Classic arcade vibes!",
+  "accountAssociation": {
+    "header": "eyJmaWQiOjQ4OTg5MiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDE4ZkJkNjAwQ0E4ZDkwOTM3ODQ3RDcxMjU0ZDY0ZjI1NjBBQjlhYzMifQ",
+    "payload": "eyJkb21haW4iOiJmYXJjYXN0ZXItY2FyLWdhbWUudmVyY2VsLmFwcCJ9",
+    "signature": "MHgyNjdhZmNlZjNhYWExYWVmOWJiZGUyY2FmMGI5MWNhZTFlMTE2NzNkYTIyZjI4ODM1ZThkMDljNDFiYTBiNWY1MzljZDE5NmJkY2IyMmRkMmUxZTVmYTM4NjMzMjc1NzUyODIxNzQxN2M0Y2I1OWJkMGE4NDkwZTU2N2U0NDBlMjFj"
+  },
   "frame": {
     "version": "1",
   "name": "Farcaster Car Game",
+    "splashImageUrl": "https://farcaster-car-game.vercel.app/splash.png",
+  "splashBackgroundColor": "#000000",
   "iconUrl": "https://farcaster-car-game.vercel.app/icon.png",
   "homeUrl": "https://farcaster-car-game.vercel.app",
-    "postUrl": "https://farcaster-car-game.vercel.app/api/frame"
+    "postUrl": "https://farcaster-car-game.vercel.app/api/frame",
+	  "description": "Steer a car to collect coins and dodge bombs. Classic arcade vibes!"
   }
 }
 
