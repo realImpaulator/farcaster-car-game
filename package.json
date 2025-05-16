@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@farcaster/frame-sdk": "^0.0.43",
     "@vercel/og": "^0.6.8",
     "next": "15.3.2",
     "react": "^19.1.0",
