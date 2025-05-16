@@ -1,0 +1,19 @@
+{
+  "name": "Farcaster Car Race",
+  "description": "Steer a car to collect coins and dodge bombs. Classic arcade vibes!",
+  "app_url": "https://farcaster-car-game.vercel.app",
+  "icons": [
+    {
+      "src": "https://farcaster-car-game.vercel.app/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "developer": {
+    "name": "impaulator",
+    "url": "none"
+  },
+  "frame": {
+    "post_url": "https://farcaster-car-game.vercel.app/api/frame"
+  }
+}
