@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    serverActions: true,
+    serverComponentsExternalPackages: ['@vercel/og'],
+  },
 };
 
 export default nextConfig;
