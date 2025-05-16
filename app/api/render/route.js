@@ -1,4 +1,3 @@
-
 // app/api/render/route.js
 import { ImageResponse } from "@vercel/og";
 
@@ -6,7 +5,7 @@ function parseState(stateStr) {
   try {
     return JSON.parse(Buffer.from(stateStr, 'base64').toString('utf-8'));
   } catch {
-    return { lane: 1, score: 0, lives: 3 };
+    return { lane: 1, score: 0, lives: 3, tick: 0, highScore: 0 };
   }
 }
 
@@ -28,9 +27,15 @@ export async function GET(req) {
         color: "white",
       }}>
         <div style={{ textAlign: "center" }}>
-          Score: {state.score} | Lives: {state.lives}
+          Score: {state.score} | Lives: {state.lives} {state.lives <= 0 ? '| High Score: ${state.highScore}' : ""}
         </div>
+
         <div style={{ display: "flex", justifyContent: "space-around" }}>
+          {/* Left side background objects */}
+          <div style={{ position: "absolute", left: 20, top: 100 }}>
+            {state.tick % 3 === 0 ? "??" : state.tick % 5 === 0 ? "??" : "??"}
+          </div>
+
           {[0, 1, 2].map((i) => (
             <div
               key={i}
@@ -44,12 +49,18 @@ export async function GET(req) {
               }}>
               {state.item && state.item.lane === i && state.item.tick === state.tick
                 ? state.item.type === "coin"
-                  ? "💰"
-                  : "💣"
+                  ? "??"
+                  : "??"
                 : ""}
             </div>
           ))}
+
+          {/* Right side background objects */}
+          <div style={{ position: "absolute", right: 20, top: 100 }}>
+            {state.tick % 4 === 0 ? "??" : state.tick % 6 === 0 ? "??" : "??"}
+          </div>
         </div>
+
       </div>
     ),
     {

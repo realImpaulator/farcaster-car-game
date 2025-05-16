@@ -1,9 +1,12 @@
 // app/api/frame/route.js
+import { getFrameMetadata } from "frames.js";
+import { ImageResponse } from "@vercel/og";
+
 function parseState(stateStr) {
   try {
     return JSON.parse(Buffer.from(stateStr, 'base64').toString('utf-8'));
   } catch {
-    return { lane: 1, score: 0, lives: 3, tick: 0 };
+    return { lane: 1, score: 0, lives: 3, tick: 0, highScore: 0 };
   }
 }
 
@@ -16,16 +19,23 @@ export async function POST(req) {
   const body = await req.json();
   const state = parseState(searchParams.get("state") || "");
 
-  const direction = body.untrustedData?.buttonIndex === 1 ? -1 : 1;
+  const direction = body.untrustedData.buttonIndex === 1 ? -1 : 1;
   state.lane = Math.max(0, Math.min(2, state.lane + direction));
   state.tick++;
 
+  // Speed up over time
+  state.speed = 1 + Math.floor(state.tick / 10) * 0.2;
+
+  // Increase bomb probability over time
+  const coinProbability = Math.max(0.1, 0.3 - state.tick * 0.005);
+  const bombProbability = 1 - coinProbability;
+
   // Add random item logic
   const rand = Math.random();
-  if (!state.item && rand < 0.3) {
+  if (!state.item && rand < 0.5) {
     state.item = {
       lane: Math.floor(Math.random() * 3),
-      type: rand < 0.15 ? "coin" : "bomb",
+      type: rand < coinProbability ? "coin" : "bomb",
       tick: state.tick + 1,
     };
   }
@@ -37,32 +47,24 @@ export async function POST(req) {
     delete state.item;
   }
 
+  if (state.lives <= 0 && state.score > state.highScore) {
+    state.highScore = state.score;
+  }
+
   const encodedState = encodeState(state);
-  const imgUrl = `${process.env.NEXT_PUBLIC_HOST}/api/render?state=${encodedState}`;
+  const imgUrl = '${process.env.NEXT_PUBLIC_HOST}/api/render?state=${encodedState}';
 
-  const html = `
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Car Game Frame</title>
-  </head>
-  <body style="background:#111; color:#fff; font-family:sans-serif; text-align:center; padding:20px;">
-    <img src="${imgUrl}" alt="Game Frame" style="max-width:100%; height:auto;" />
-    <div style="margin-top:20px;">
-      <form method="POST" action="/api/frame?state=${encodedState}">
-        <button name="buttonIndex" value="0" style="font-size:24px; margin-right:10px;">⬅️ Move Left</button>
-        <button name="buttonIndex" value="1" style="font-size:24px;">➡️ Move Right</button>
-      </form>
-    </div>
-  </body>
-  </html>
-  `;
-
-  return new Response(html, {
-    headers: {
-      "Content-Type": "text/html",
-      "Cache-Control": "no-store",
-    },
-  });
+  return new Response(
+    getFrameMetadata({
+      image: imgUrl,
+      buttons: state.lives > 0 ? ["⬅️ Move Left", "➡️ Move Right"] : ["🔁 Play Again"],
+      post_url: '/api/frame?state=${encodedState}',
+    }),
+    {
+      headers: {
+        "Content-Type": "text/html",
+        "Cache-Control": "no-store",
+      },
+    }
+  );
 }
