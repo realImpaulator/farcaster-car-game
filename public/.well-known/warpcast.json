@@ -1,0 +1,14 @@
+{
+  "name": "Farcaster Car Game",
+  "description": "A fun mini-game where you race a car, collect coins, and dodge bombs.",
+  "website": "https://farcaster-car-game.vercel.app",
+  "icons": [
+    "https://farcaster-car-game.vercel.app/icon.png"
+  ],
+  "app": {
+    "url": "https://farcaster-car-game.vercel.app/api/frame"
+  },
+  "notification": {
+    "url": "https://farcaster-car-game.vercel.app/api/notify"
+  }
+}
