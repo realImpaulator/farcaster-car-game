@@ -3,18 +3,16 @@
 import { ImageResponse } from "@vercel/og";
 
 function getFrameHtml({ image, buttons, post_url }) {
-  return 
-    <!DOCTYPE html>
+  return `<!DOCTYPE html>
     <html>
       <head>
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content="${image}" />
-        ${buttons.map((label, i) => '<meta property="fc:frame:button:${i + 1}" content="${label}" />').join("\n")}
+        ${buttons.map((label, i) => `<meta property="fc:frame:button:${i + 1}" content="${label}" />`).join("\n")}
         <meta property="fc:frame:post_url" content="${post_url}" />
       </head>
       <body></body>
-    </html>
-  ;
+    </html>`;
 }
 
 function parseState(stateStr) {
@@ -43,7 +41,6 @@ export async function POST(req) {
 
   // Increase bomb probability over time
   const coinProbability = Math.max(0.1, 0.3 - state.tick * 0.005);
-  const bombProbability = 1 - coinProbability;
 
   // Add random item logic
   const rand = Math.random();
@@ -67,17 +64,17 @@ export async function POST(req) {
   }
 
   const encodedState = encodeState(state);
-  const imgUrl = ${process.env.NEXT_PUBLIC_HOST}/api/render?state=${encodedState};
+  const imgUrl = `${process.env.NEXT_PUBLIC_HOST}/api/render?state=${encodedState}`;
+  const postUrl = `${process.env.NEXT_PUBLIC_HOST}/api/frame?state=${encodedState}`;
 
-	return new Response(getFrameHtml({
-	  image: imgUrl,
-	  buttons: state.lives > 0 ? ["⬅️ Move Left", "➡️ Move Right"] : ["🔁 Play Again"],
-	  post_url: ${process.env.NEXT_PUBLIC_HOST}/api/frame?state=${encodedState},
-	}), {
-	  headers: {
-		"Content-Type": "text/html",
-		"Cache-Control": "no-store",
-	  },
-	});
-  
+  return new Response(getFrameHtml({
+    image: imgUrl,
+    buttons: state.lives > 0 ? ["⬅️ Move Left", "➡️ Move Right"] : ["🔁 Play Again"],
+    post_url: postUrl,
+  }), {
+    headers: {
+      "Content-Type": "text/html",
+      "Cache-Control": "no-store",
+    },
+  });
 }
