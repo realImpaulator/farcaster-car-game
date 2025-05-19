@@ -1,7 +1,7 @@
-// app/api/frame/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+// app/api/frame/route.js
+import { NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
+export async function POST(req) {
   return NextResponse.json({
     version: 'vNext',
     content: {
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
       frames: [
         {
           image: {
-            url: 'https://farcaster-car-game.vercel.app/screenshot.png', // replace with your image
+            url: 'https://farcaster-car-game.vercel.app/screenshot.png', // Change this
           },
           buttons: [
             {
