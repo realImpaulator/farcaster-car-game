@@ -26,7 +26,7 @@ export default function Home() {
         <meta name="description" content="Steer a car to collect coins and dodge bombs. Classic arcade vibes!" />
         <meta property="og:image" content={EMBED.imageUrl} />
         <meta property="og:title" content="Farcaster Car Game" />
-        <meta property="og:description" content="Play directly inside Warpcast – it's a retro arcade racing game!" />
+        <meta property="og:description" content="Play directly inside Warpcast â€“ it's a retro arcade racing game!" />
         <link rel="icon" href="/icon.png" />
       </Head>
 
