@@ -28,7 +28,6 @@ function parseState(stateStr) {
 function encodeState(state) {
   return Buffer.from(JSON.stringify(state)).toString('base64');
 }
-
 export async function POST(req) {
   const { searchParams } = new URL(req.url);
   const body = await req.json();
@@ -38,14 +37,11 @@ export async function POST(req) {
   state.lane = Math.max(0, Math.min(2, state.lane + direction));
   state.tick++;
 
-  // Speed up over time
+  // Speed and item logic as you had
   state.speed = 1 + Math.floor(state.tick / 10) * 0.2;
-
-  // Increase bomb probability over time
   const coinProbability = Math.max(0.1, 0.3 - state.tick * 0.005);
   const bombProbability = 1 - coinProbability;
 
-  // Add random item logic
   const rand = Math.random();
   if (!state.item && rand < 0.5) {
     state.item = {
@@ -55,7 +51,6 @@ export async function POST(req) {
     };
   }
 
-  // Collision detection
   if (state.item && state.item.tick === state.tick && state.item.lane === state.lane) {
     if (state.item.type === "coin") state.score++;
     else state.lives--;
@@ -69,15 +64,20 @@ export async function POST(req) {
   const encodedState = encodeState(state);
   const imgUrl = `${process.env.NEXT_PUBLIC_HOST}/api/render?state=${encodedState}`;
 
-	return new Response(getFrameHtml({
-	  image: imgUrl,
-	  buttons: state.lives > 0 ? ["⬅️ Move Left", "➡️ Move Right"] : ["🔁 Play Again"],
-	  post_url: `${process.env.NEXT_PUBLIC_HOST}/api/frame?state=${encodedState}`,
-	}), {
-	  headers: {
-		"Content-Type": "text/html",
-		"Cache-Control": "no-store",
-	  },
-	});
-  
+  return new Response(
+    JSON.stringify({
+      version: "vNext",
+      image: imgUrl,
+      post_url: `${process.env.NEXT_PUBLIC_HOST}/api/frame?state=${encodedState}`,
+      buttons: state.lives > 0
+        ? [{ label: "⬅️ Move Left" }, { label: "➡️ Move Right" }]
+        : [{ label: "🔁 Play Again" }]
+    }),
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store"
+      }
+    }
+  );
 }

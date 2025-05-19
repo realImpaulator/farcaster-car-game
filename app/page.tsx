@@ -41,16 +41,6 @@ export default function Home() {
           Ready to race? Play the game directly in a Farcaster Frame!
         </p>
 
-        <div className="mt-8">
-          <a
-            href="https://warpcast.com/~/developers/mini-apps/manifest"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-black text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors"
-          >
-            View on Warpcast
-          </a>
-        </div>
 
         <GameClient />
       </main>
