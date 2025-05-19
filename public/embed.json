@@ -1,0 +1,9 @@
+{
+  "version": "vNext",
+  "image": "https://farcaster-car-game.vercel.app/opengraph.png",
+  "post_url": "https://farcaster-car-game.vercel.app/api/frame",
+  "buttons": [
+    { "label": "⬅️ Move Left" },
+    { "label": "➡️ Move Right" }
+  ]
+}
