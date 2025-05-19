@@ -2,6 +2,8 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
+  const body = await req.json(); // 👈 required to consume the request body
+
   return NextResponse.json({
     version: 'vNext',
     content: {
@@ -9,7 +11,7 @@ export async function POST(req) {
       frames: [
         {
           image: {
-            url: 'https://farcaster-car-game.vercel.app/screenshot.png', // Change this
+            url: 'https://farcaster-car-game.vercel.app/icon.png',
           },
           buttons: [
             {
